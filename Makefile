@@ -2,56 +2,34 @@ SHELL := /bin/bash
 
 # Global stuff
 DOCKER=docker
-SOURCE_PATH := $(shell pwd)
-WORKING_PATH=/opt
 CONFIG="makefile.json"
 
-# jq config
+# jq
 JQ_CONTAINER=imega/jq
-JQ=$(DOCKER) run -i $(JQ_CONTAINER) -c
+JQ=$(DOCKER) run -i $(JQ_CONTAINER) -c -r
 
-# Python config
-PYTHON_CONTAINER=build-python:local
-BUILD=$(DOCKER) run -v $(SOURCE_PATH):$(WORKING_PATH) -w $(WORKING_PATH) $(PYTHON_CONTAINER)
+# Items from $(CONFIG)
+ECR_URI := $(shell cat $(CONFIG) | $(JQ) .aws.ecr.uri)
+ECR_REGION := $(shell cat $(CONFIG) | $(JQ) .aws.ecr.region)
+AWS_ACCOUNT_ID := $(shell cat $(CONFIG) | $(JQ) .aws.account_id)
+IMAGE_NAME := $(shell cat $(CONFIG) | $(JQ) .docker.image_name)
 
-## Github config
-#GH_CONTAINER=ghcr.io/supportpal/github-gh-cli
-#GH=$(DOCKER) run -e GH_TOKEN=$$GH_TOKEN -v $(SOURCE_PATH):$(WORKING_PATH) -w $(WORKING_PATH) $(GH_CONTAINER)
 
-# AWS config
+# AWS
 AWS_CONTAINER=amazon/aws-cli
 AWS_WORKING_PATH=/aws
-AWS=$(DOCKER) run -e AWS_SECRET_ACCESS_KEY=$$AWS_SECRET_ACCESS_KEY -e AWS_ACCESS_KEY_ID=$$AWS_ACCESS_KEY_ID 
-
-## Items from $(CONFIG)
-#S3_BUCKET := $(shell cat $(CONFIG) | $(JQ) .aws.s3.destination)
-#S3_REGION := $(shell cat $(CONFIG) | $(JQ) .aws.s3.region)
-#DISTRIBUTION_ID := $(shell cat $(CONFIG) | $(JQ) .aws.cloudfront.distribution_id)
-#INVALIDATION_PATH := $(shell cat $(CONFIG) | $(JQ) .aws.cloudfront.invalidation_path) 
-
-test:
-	$(BUILD) python -m pytest tests
+AWS=$(DOCKER) run -e AWS_SECRET_ACCESS_KEY=$$AWS_SECRET_ACCESS_KEY -e AWS_ACCESS_KEY_ID=$$AWS_ACCESS_KEY_ID $(AWS_CONTAINER)
 
 init:
-	$(BUILD) npm install
+	$(AWS) ecr-public get-login-password --region $(ECR_REGION) | $(DOCKER) login --username AWS --password-stdin $(ECR_URI)
 
 build:
-	$(BUILD) npm run build 
-
-package:
-	tar cfvz $(PACKAGE) $(DIST_PATH)
+	$(DOCKER) build . -t $(IMAGE_NAME):$(version)
 
 release:
-	$(GH) gh release create $(version) dist.tar.gz --generate-notes
-
-deploy:
-	cd dist ; \
-	$(AWS) -v $(SOURCE_PATH)/dist:$(AWS_WORKING_PATH) -w $(AWS_WORKING_PATH) $(AWS_CONTAINER)  s3 sync . s3://$(S3_BUCKET) --delete --acl public-read --region $(S3_REGION)
-
-invalidate:
-	$(AWS) $(AWS_CONTAINER) cloudfront create-invalidation --distribution-id $(DISTRIBUTION_ID) --paths $(INVALIDATION_PATH) --region $(S3_REGION)
-
-clean:
-	rm -rf node_modules dist dist.tar.gz
+	$(DOCKER) tag $(IMAGE_NAME):$(version) $(ECR_URI)/$(IMAGE_NAME):$(version)
+	$(DOCKER) tag $(IMAGE_NAME):$(version) $(ECR_URI)/$(IMAGE_NAME):latest
+	$(DOCKER) push $(ECR_URI)/$(IMAGE_NAME):$(version)
+	$(DOCKER) push $(ECR_URI)/$(IMAGE_NAME):latest
 
 all: init build package
