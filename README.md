@@ -1,5 +1,5 @@
 # build-python
-Easily extendible Python3 image with pyyaml, boto3, and pytest. `Makefile` will push to [ECR](https://aws.amazon.com/ecr/)
+Easily extendible Python3 image with pyyaml, boto3, and pytest. `Makefile` can push to [ECR](https://aws.amazon.com/ecr/)
 
 ## Usage
 
@@ -25,5 +25,15 @@ docker run -v $PWD:/opt -w /opt replicant0wnz/build-python:latest \
 
 ## Extending
 1. Clone this repository
-2. Modify `makefile.json`
-3. 
+2. Modify `Dockerfile` with any additions
+3. Run `make build version=$version`
+
+## Pushing to ECR
+1. Modify `makefile.json` with your account#, ECR URI, and region
+2. Export `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+    a. Example:
+        ```bash
+        export AWS_ACCESS_KEY_ID=`grep aws_access_key_id ~/.aws/credentials | awk '{print $3}'`
+        export AWS_SECRET_ACCESS_KEY=`grep aws_secret_access_key ~/.aws/credentials | awk '{print $3}'`
+        ```
+2. Run `make all`
