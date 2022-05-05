@@ -31,7 +31,7 @@ docker run -v $PWD:/opt -w /opt replicant0wnz/build-python:latest \
 ## Pushing to ECR
 1. Modify `makefile.json` with your account#, ECR URI, and region
 2. Export `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
-    a. Example:
+    - Example:
         ```bash
         export AWS_ACCESS_KEY_ID=`grep aws_access_key_id ~/.aws/credentials | awk '{print $3}'`
         export AWS_SECRET_ACCESS_KEY=`grep aws_secret_access_key ~/.aws/credentials | awk '{print $3}'`
