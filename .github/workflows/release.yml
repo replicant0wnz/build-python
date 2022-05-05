@@ -1,0 +1,38 @@
+name: release
+
+on: 
+  push:
+    tags:
+      - 1.*
+
+env:
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+
+jobs:
+  init_build_release:
+    name: "init → build → release"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: init
+        run: |
+          make init
+          
+      - name: build
+        run: |
+          make version=$GITHUB_REF_NAME 
+          
+      - name: release
+        run: |
+          make version=$GITHUB_REF_NAME release
+      
+      - name: deploy
+        run: |
+          make deploy
+      
+      - name: invalidate
+        run: |
+          make invalidate
