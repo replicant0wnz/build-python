@@ -23,7 +23,7 @@ jobs:
           
       - name: build
         run: |
-          make version=$GITHUB_REF_NAME 
+          make version=$GITHUB_REF_NAME build
           
       - name: release
         run: |
