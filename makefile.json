@@ -1,0 +1,12 @@
+{
+    "aws": {
+        "account_id" : "372521474381",
+        "ecr" : {
+            "region" : "us-east-1",
+            "uri" : "public.ecr.aws/replicant0wnz"
+        }
+    },
+    "docker": {
+        "image_name" : "build-python"
+    }
+}
