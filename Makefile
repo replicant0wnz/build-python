@@ -32,4 +32,4 @@ release:
 	$(DOCKER) push $(ECR_URI)/$(IMAGE_NAME):$(version)
 	$(DOCKER) push $(ECR_URI)/$(IMAGE_NAME):latest
 
-all: init build package
+all: init build release
