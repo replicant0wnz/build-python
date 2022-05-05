@@ -17,7 +17,7 @@ docker run -v $PWD:/opt -w /opt replicant0wnz/build-python:latest python -m buil
 
 **Push project to PyPI test**
 ```bash
-docker run -v $PWD:/opt -w /opt replicant0wnz/build-python:latest \ 
+docker run -v $PWD:/opt -w /opt \ 
     -e TWINE_USERNAME=$PYPI_USERNAME -e TWINE_PASSWORD=$PYPI_PASSWORD \ 
     replicant0wnz/build-python:latest \
     python -m twine upload --repository testpypi dist/* 
