@@ -29,7 +29,8 @@ changelog:
 	$(CHANGELOG) -u replicant0wnz -p build-python --since-tag 1.0.0
 
 init:
-	$(AWS) ecr-public get-login-password --region $(ECR_REGION) | $(DOCKER) login --username AWS --password-stdin $(ECR_URI)
+	export DOCKER_PASSWORD=`$(AWS) ecr-public get-login-password --region $(ECR_REGION)` ; \
+	$(DOCKER) login --username AWS -p $$DOCKER_PASSWORD  $(ECR_URI)
 
 build:
 	$(DOCKER) build . -t $(IMAGE_NAME):$(version)
