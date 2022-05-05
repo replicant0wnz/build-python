@@ -14,14 +14,14 @@ ECR_REGION := $(shell cat $(CONFIG) | $(JQ) .aws.ecr.region)
 AWS_ACCOUNT_ID := $(shell cat $(CONFIG) | $(JQ) .aws.account_id)
 IMAGE_NAME := $(shell cat $(CONFIG) | $(JQ) .docker.image_name)
 
-
 # AWS
 AWS_CONTAINER=amazon/aws-cli
 AWS_WORKING_PATH=/aws
 AWS=$(DOCKER) run -e AWS_SECRET_ACCESS_KEY=$$AWS_SECRET_ACCESS_KEY -e AWS_ACCESS_KEY_ID=$$AWS_ACCESS_KEY_ID $(AWS_CONTAINER)
 
 init:
-	$(AWS) ecr-public get-login-password --region $(ECR_REGION) | $(DOCKER) login --username AWS --password-stdin $(ECR_URI)
+	export DOCKER_PASSWORD=`$(AWS) ecr-public get-login-password --region $(ECR_REGION)` ; \
+	$(DOCKER) login --username AWS -p $$DOCKER_PASSWORD  $(ECR_URI)
 
 build:
 	$(DOCKER) build . -t $(IMAGE_NAME):$(version)
