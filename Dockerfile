@@ -1,12 +1,9 @@
-FROM python:3.9-alpine
-
-RUN apk --no-cache add \ 
-    bash \
-    py3-twine \
-    black
+FROM python:3.9-slim-bullseye
 
 RUN pip3 install \ 
     pyyaml \
     boto3 \
     pytest \
-    build 
+    build \
+    black \
+    twine
