@@ -1,5 +1,5 @@
 # build-python
-Easily extendible Python3 image with pyyaml, boto3, and pytest to build and push to PyPI. `Makefile` can push to [ECR](https://aws.amazon.com/ecr/)
+Easily extendible Python3 image with pyyaml, boto3, twine, black, and pytest to build and push to PyPI. `Makefile` can push to [ECR](https://aws.amazon.com/ecr/)
 
 ## Usage
 
