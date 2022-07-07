@@ -1,5 +1,5 @@
 # build-python
-[![GitHub Actions](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Freplicant0wnz%2Fbuild-python%2Fbadge)](https://actions-badge.atrox.dev/replicant0wnz/build-python)
+![Github Actions](https://github.com/replicant0wnz/build-python/actions/workflows/release/badge.svg)
 [![Releases](https://img.shields.io/github/v/release/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/releases)
 [![Latest commit](https://img.shields.io/github/last-commit/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/commits/main)
 [![LICENSE](https://img.shields.io/github/license/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/blob/main/LICENSE)
