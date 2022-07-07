@@ -1,4 +1,9 @@
 # build-python
+![](https://github.com/replicant0wnz/build-python/actions/workflows/release.yml/badge.svg)
+[![Releases](https://img.shields.io/github/v/release/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/releases)
+[![Latest commit](https://img.shields.io/github/last-commit/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/commits/main)
+[![LICENSE](https://img.shields.io/github/license/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/blob/main/LICENSE)
+
 Easily extendible Python3 image with pyyaml, boto3, twine, black, and pytest to build and push to PyPI. `Makefile` can push to [ECR](https://aws.amazon.com/ecr/)
 
 ## Usage
@@ -29,7 +34,7 @@ docker run -v $PWD:/opt -w /opt \
 3. Run `make build version=$version`
 
 ## Pushing to ECR
-1. Modify `makefile.json` with your account#, ECR URI, and region
+1. Modify `makefile.json` with your account #, ECR URI, and region
 2. Export `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
     - Example:
         ```bash
