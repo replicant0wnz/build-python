@@ -1,5 +1,5 @@
 # build-python
-![](https://github.com/replicant0wnz/build-python/actions/workflows/release/badge.svg)
+![](https://github.com/replicant0wnz/build-python/actions/workflows/release.yml/badge.svg)
 [![Releases](https://img.shields.io/github/v/release/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/releases)
 [![Latest commit](https://img.shields.io/github/last-commit/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/commits/main)
 [![LICENSE](https://img.shields.io/github/license/replicant0wnz/build-python)](https://github.com/replicant0wnz/build-python/blob/main/LICENSE)
